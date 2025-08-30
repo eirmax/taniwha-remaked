@@ -2,19 +2,14 @@ package party.lemons.taniwha.entity.golem;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import dev.architectury.event.EventResult;
-import dev.architectury.event.events.common.BlockEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.registry.ReloadListenerRegistry;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockSource;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.PackType;
@@ -352,7 +347,7 @@ public class GolemHandler
 
     private static final OptionalDispenseItemBehavior DISPENSE_BEHAVIOUR = new OptionalDispenseItemBehavior(){
         @Override
-        protected ItemStack execute(@NotNull BlockSource bs, @NotNull ItemStack stack) {
+        protected ItemStack execute(@NotNull net.minecraft.core.dispenser.BlockSource bs, @NotNull ItemStack stack) {
             if (dispenseGolem(bs, stack)) {
                 stack.shrink(1);
                 this.setSuccess(true);
@@ -363,7 +358,7 @@ public class GolemHandler
 
     private static final OptionalDispenseItemBehavior PUMPKIN_DISPENSE_BEHAVIOUR = new OptionalDispenseItemBehavior(){
         @Override
-        protected ItemStack execute(@NotNull BlockSource bs, @NotNull ItemStack stack) {
+        protected ItemStack execute(@NotNull net.minecraft.core.dispenser.BlockSource bs, @NotNull ItemStack stack) {
             if (GolemHandler.dispenseGolem(bs, stack)) {
                 setSuccess(true);
                 stack.shrink(1);
@@ -374,12 +369,13 @@ public class GolemHandler
             }
             return stack;
         }
+
     };
 
-    private static boolean dispenseGolem(BlockSource bs, ItemStack stack)
+    private static boolean dispenseGolem(net.minecraft.core.dispenser.@NotNull BlockSource bs, ItemStack stack)
     {
-        ServerLevel level = bs.getLevel();
-        BlockPos blockpos = bs.getPos().relative(bs.getBlockState().getValue(DispenserBlock.FACING));
+        ServerLevel level = bs.level();
+        BlockPos blockpos = bs.pos().relative(bs.state().getValue(DispenserBlock.FACING));
 
         if(stack.getItem() instanceof  BlockItem bi) {
             if (level.isEmptyBlock(blockpos) && canDispenseGolem(level, blockpos, stack)) {
