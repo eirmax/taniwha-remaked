@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "com.github.johnrengelman.shadow" version "8.1.1"
 }
 
 architectury {
@@ -35,7 +35,8 @@ dependencies {
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProject.rei_version}"
 
     //  modApi "com.terraformersmc:modmenu:${rootProject.mod_menu_version}"
-    include("com.github.LlamaLad7:MixinExtras:0.1.1")
+
+    // Updated MixinExtras for 1.21.1
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
@@ -53,19 +54,19 @@ shadowJar {
     exclude "architectury.common.json"
 
     configurations = [project.configurations.shadowCommon]
-    classifier "dev-shadow"
+    archiveClassifier = "dev-shadow"  // Fixed: was 'classifier'
 }
 
 remapJar {
     injectAccessWidener = true
-    input.set shadowJar.archiveFile
+    inputFile.set shadowJar.archiveFile  // Fixed: was 'input.set'
     dependsOn shadowJar
-    classifier null
+    archiveClassifier.set(null)  // Fixed: was 'classifier null'
 }
 
 jar {
-    classifier "dev"
-    setArchivesBaseName("taniwha-fabric");
+    archiveClassifier = "dev"  // Fixed: was 'classifier'
+    archiveBaseName = "taniwha-fabric"  // Fixed: was 'setArchivesBaseName'
 }
 
 components.java {
