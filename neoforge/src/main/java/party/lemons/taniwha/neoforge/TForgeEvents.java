@@ -1,4 +1,4 @@
-package party.lemons.taniwha.forge;
+package party.lemons.taniwha.neoforge;
 
 import dev.architectury.event.events.common.BlockEvent;
 import net.minecraft.world.level.Level;

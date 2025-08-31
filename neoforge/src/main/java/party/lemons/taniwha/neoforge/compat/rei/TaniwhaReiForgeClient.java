@@ -1,4 +1,4 @@
-package party.lemons.taniwha.forge.compat.rei;
+package party.lemons.taniwha.neoforge.compat.rei;
 
 import party.lemons.taniwha.compat.rei.TaniwhaReiClient;
 
