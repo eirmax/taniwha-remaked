@@ -1,4 +1,4 @@
-package party.lemons.taniwha.forge.mixin;
+package party.lemons.taniwha.neoforge.mixin;
 
 import com.google.common.collect.Maps;
 import net.minecraft.world.level.block.Block;

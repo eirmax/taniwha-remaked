@@ -1,4 +1,4 @@
-package party.lemons.taniwha.forge;
+package party.lemons.taniwha.neoforge;
 
 
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -6,7 +6,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.Mod;
 import party.lemons.taniwha.TConstants;
 import party.lemons.taniwha.TaniwhaClient;
 import party.lemons.taniwha.client.model.RenderLayerInjector;

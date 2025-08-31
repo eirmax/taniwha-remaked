@@ -1,4 +1,4 @@
-package party.lemons.taniwha.forge.mixin;
+package party.lemons.taniwha.neoforge.mixin;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Mob;
