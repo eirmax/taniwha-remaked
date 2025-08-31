@@ -1,4 +1,4 @@
-package party.lemons.taniwha.forge.mixin;
+package party.lemons.taniwha.neoforge.mixin;
 
 import com.google.common.collect.Maps;
 import net.minecraft.world.level.block.Block;
@@ -25,7 +25,7 @@ public class AxeItemMixin
     @Unique
     private static boolean tf_stripInit = false;
 
-    @Inject(at = @At("HEAD"), method = "getAxeStrippingState", remap = false)
+    @Inject(at = @At("HEAD"), method = "getStripped", remap = false)
     private static  void getAxeStrippingState(BlockState originalState, CallbackInfoReturnable<BlockState> cbi)
     {
         if(!tf_stripInit)

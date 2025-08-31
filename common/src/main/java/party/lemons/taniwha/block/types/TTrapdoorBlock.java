@@ -15,7 +15,7 @@ public class TTrapdoorBlock extends TrapDoorBlock implements BlockWithModifiers<
 
     public TTrapdoorBlock(Properties settings, BlockSetType setType)
     {
-        super(settings, setType);
+        super(setType, settings);
     }
 
     @Override

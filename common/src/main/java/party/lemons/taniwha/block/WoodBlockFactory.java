@@ -38,8 +38,8 @@ import java.util.function.Supplier;
 
 public class WoodBlockFactory
 {
-    private final List<WoodBlockFactory.Type> types = Lists.newArrayList();
-    private final List<WoodBlockFactory.Type> itemTypes = Lists.newArrayList();
+    private final List<Type> types = Lists.newArrayList();
+    private final List<Type> itemTypes = Lists.newArrayList();
 
     private final Map<Type, RegistrySupplier<Block>> blocks = Maps.newHashMap();
     private final Map<Type, RegistrySupplier<Item>> items = Maps.newHashMap();
@@ -277,11 +277,11 @@ public class WoodBlockFactory
         BUTTON("", "button", true, (f)-> ()->new TButtonBlock(propsPlank(f).strength(0.5F).pushReaction(PushReaction.DESTROY).noCollission(), f.woodType.setType(), 30 ,true)),
         TRAP_DOOR("", "trapdoor", true, (f)->()->new TTrapdoorBlock(propsPlank(f).strength(3F).noOcclusion().instrument(NoteBlockInstrument.BASS).ignitedByLava().isValidSpawn(BlockHelper::never), f.woodType.setType()).modifiers(RTypeModifier.create(RType.CUTOUT))),
         DOOR("", "door", true, (f)->()->new TDoorBlock(propsPlank(f).instrument(NoteBlockInstrument.BASS).ignitedByLava().pushReaction(PushReaction.DESTROY).strength(3.0F).noOcclusion(), f.woodType.setType()).modifiers(RTypeModifier.create(RType.CUTOUT))),
-        SIGN("", "sign", false, (f)->()->new StandingSignBlock(propsPlank(f).strength(1F).instrument(NoteBlockInstrument.BASS).ignitedByLava().pushReaction(PushReaction.DESTROY).forceSolidOn().sound(SoundType.WOOD).noCollission(), f.woodType)),
-        SIGN_WALL("", "wall_sign", false, (f)->()->new WallSignBlock(BlockBehaviour.Properties.of().mapColor(f.plankColor).instrument(NoteBlockInstrument.BASS).ignitedByLava().pushReaction(PushReaction.DESTROY).strength(1F).sound(SoundType.WOOD).noCollission(), f.woodType)),
+        SIGN("", "sign", false, (f)->()->new StandingSignBlock(f.woodType, propsPlank(f).strength(1F).instrument(NoteBlockInstrument.BASS).ignitedByLava().pushReaction(PushReaction.DESTROY).forceSolidOn().sound(SoundType.WOOD).noCollission())),
+        SIGN_WALL("", "wall_sign", false, (f)->()->new WallSignBlock(f.woodType, BlockBehaviour.Properties.of().mapColor(f.plankColor).instrument(NoteBlockInstrument.BASS).ignitedByLava().pushReaction(PushReaction.DESTROY).strength(1F).sound(SoundType.WOOD).noCollission())),
         SIGN_ITEM("", "sign", false, null, (f)->()->new SignItem(f.properties().stacksTo(16), f.getBlock(Type.SIGN).get(), f.getBlock(Type.SIGN_WALL).get())),
-        HANGING_SIGN("", "hanging_sign", false, (f)->()->new CeilingHangingSignBlock(BlockBehaviour.Properties.of().mapColor(f.plankColor).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F).ignitedByLava(), f.woodType)),
-        HANGING_SIGN_WALL("", "wall_hanging_sign", false, (f)->()->new WallHangingSignBlock(BlockBehaviour.Properties.of().mapColor(f.plankColor).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F).ignitedByLava(), f.woodType)),
+        HANGING_SIGN("", "hanging_sign", false, (f)->()->new CeilingHangingSignBlock(f.woodType, BlockBehaviour.Properties.of().mapColor(f.plankColor).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F).ignitedByLava())),
+        HANGING_SIGN_WALL("", "wall_hanging_sign", false, (f)->()->new WallHangingSignBlock(f.woodType, BlockBehaviour.Properties.of().mapColor(f.plankColor).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F).ignitedByLava())),
         HANGING_SIGN_ITEM("", "hanging_sign", false, null, (f)->()->new HangingSignItem(f.getBlock(Type.HANGING_SIGN).get(), f.getBlock(Type.HANGING_SIGN_WALL).get(), f.properties().stacksTo(16))),
         BOAT("", "boat", false, null, (f)->()->new TBoatItem(f.boatType, false, f.properties().stacksTo(1))),
         CHEST_BOAT("", "chest_boat", false, null, (f)->()->new TBoatItem(f.boatType, true, f.properties().stacksTo(1)));
@@ -316,7 +316,7 @@ public class WoodBlockFactory
 
             if(!postfix.isEmpty()) s += "_" + postfix;
 
-            return new ResourceLocation(modid, s);
+            return ResourceLocation.fromNamespaceAndPath(modid, s);
         }
     }
 

@@ -1,4 +1,4 @@
-package party.lemons.taniwha.forge.mixin.elytra;
+package party.lemons.taniwha.neoforge.mixin.elytra;
 
 
 import net.minecraft.world.entity.LivingEntity;

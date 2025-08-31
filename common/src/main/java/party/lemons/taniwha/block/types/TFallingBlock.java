@@ -1,5 +1,6 @@
 package party.lemons.taniwha.block.types;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.BlockGetter;
@@ -24,6 +25,11 @@ public class TFallingBlock extends FallingBlock implements BlockWithModifiers<TF
     @Override
     public int getDustColor(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) {
         return dustColor;
+    }
+
+    @Override
+    protected MapCodec<? extends FallingBlock> codec() {
+        return null;
     }
 
     @Override

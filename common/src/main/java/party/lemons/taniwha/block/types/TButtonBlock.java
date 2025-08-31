@@ -12,10 +12,10 @@ public class TButtonBlock extends ButtonBlock implements BlockWithModifiers<TBut
 {
     private ModifierContainer<Block> modifierContainer;
 
-    public TButtonBlock(Properties properties, BlockSetType type, int ticks, boolean arrowsCanPress)
-    {
-        super(properties, type, ticks, arrowsCanPress);
+    public TButtonBlock(BlockSetType blockSetType, int i, Properties properties) {
+        super(blockSetType, i, properties);
     }
+
 
     @Override
     public TButtonBlock modifiers(BlockModifier... modifiers) {

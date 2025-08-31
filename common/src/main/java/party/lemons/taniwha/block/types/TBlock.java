@@ -1,8 +1,6 @@
 package party.lemons.taniwha.block.types;
 
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import party.lemons.taniwha.block.TBlockExtension;
 import party.lemons.taniwha.block.modifier.BlockModifier;
 import party.lemons.taniwha.block.modifier.BlockWithModifiers;

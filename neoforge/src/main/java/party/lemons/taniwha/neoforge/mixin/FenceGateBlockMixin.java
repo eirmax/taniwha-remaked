@@ -1,4 +1,4 @@
-package party.lemons.taniwha.forge.mixin;
+package party.lemons.taniwha.neoforge.mixin;
 
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.block.FenceGateBlock;

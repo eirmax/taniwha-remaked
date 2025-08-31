@@ -12,14 +12,10 @@ public class TDropExperienceBlock extends DropExperienceBlock implements BlockWi
 {
 	private ModifierContainer<Block> modifierContainer;
 
-	public TDropExperienceBlock(Properties properties)
-	{
-		super(properties);
-	}
 
 	public TDropExperienceBlock(Properties properties, IntProvider intProvider)
 	{
-		super(properties, intProvider);
+		super(intProvider, properties);
 	}
 
 	@Override

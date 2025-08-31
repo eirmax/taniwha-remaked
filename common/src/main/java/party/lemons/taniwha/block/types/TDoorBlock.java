@@ -16,7 +16,7 @@ public class TDoorBlock extends DoorBlock implements BlockWithModifiers<TDoorBlo
 
     public TDoorBlock(Properties settings, BlockSetType setType)
     {
-        super(settings, setType);
+        super(setType, settings);
     }
 
     @Override

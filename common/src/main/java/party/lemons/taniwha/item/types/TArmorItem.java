@@ -1,12 +1,12 @@
 package party.lemons.taniwha.item.types;
 
-import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 public class TArmorItem extends ArmorItem
 {
@@ -14,7 +14,7 @@ public class TArmorItem extends ArmorItem
 	private final int protection;
 	private final float toughness;
 
-	public TArmorItem(ArmorMaterial material, Multimap<Attribute, AttributeModifier> attributes, int protection, float toughness, ArmorItem.Type type, Properties properties)
+	public TArmorItem(Holder<ArmorMaterial> material, Multimap<Attribute, AttributeModifier> attributes, int protection, float toughness, Type type, Properties properties)
 	{
 		super(material, type, properties);
 
@@ -23,10 +23,10 @@ public class TArmorItem extends ArmorItem
 		this.toughness = toughness;
 	}
 
+
 	@Override
-	public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot equipmentSlot)
-	{
-		return equipmentSlot == this.type.getSlot() ? attributes : ImmutableMultimap.of();
+	public ItemAttributeModifiers getDefaultAttributeModifiers() {
+		return super.getDefaultAttributeModifiers();
 	}
 
 	@Override

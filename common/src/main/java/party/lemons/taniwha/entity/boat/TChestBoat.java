@@ -2,13 +2,13 @@ package party.lemons.taniwha.entity.boat;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.HasCustomInventoryScreen;
 import net.minecraft.world.entity.SlotAccess;
@@ -22,6 +22,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.storage.loot.LootTable;
 import org.jetbrains.annotations.Nullable;
 import party.lemons.taniwha.entity.TEntities;
 
@@ -74,7 +75,7 @@ public class TChestBoat extends TBoat implements HasCustomInventoryScreen, Conta
 	}
 
 	@Override
-	public void remove(Entity.RemovalReason removalReason) {
+	public void remove(RemovalReason removalReason) {
 		if (!this.level().isClientSide && removalReason.shouldDestroy()) {
 			Containers.dropContents(this.level(), this, (Container)this);
 		}
@@ -170,14 +171,13 @@ public class TChestBoat extends TBoat implements HasCustomInventoryScreen, Conta
 	}
 
 	@Override
-	@Nullable
-	public ResourceLocation getLootTable() {
-		return this.lootTable;
+	public ResourceKey<LootTable> getLootTable() {
+		return.lootTable;
 	}
 
 	@Override
-	public void setLootTable(@Nullable ResourceLocation resourceLocation) {
-		this.lootTable = resourceLocation;
+	public void setLootTable(@Nullable ResourceKey<LootTable> resourceKey) {
+		this.lootTable = resourceKey.location();
 	}
 
 	@Override

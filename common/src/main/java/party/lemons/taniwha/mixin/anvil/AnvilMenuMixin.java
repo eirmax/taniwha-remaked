@@ -44,11 +44,11 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu
             if((ingA.test(item1) && ingB.test(item2)))
             {
                 ItemStack resultStack = recipe.getResult().copy();
-                if(item1.hasTag())
-                    resultStack.setTag(item1.getTag().copy());
+                if(item1.has())
+                    resultStack.set(item1.getTags().coun);
                 int finalCost = recipe.getCost();
 
-                if (this.itemName != null && !Util.isBlank(this.itemName)) {
+                if (this.itemName != null && !Util.ifElse(this.itemName)) {
                     if (!this.itemName.equals(item1.getHoverName().getString())) {
                         finalCost += 1;
                         resultStack.setHoverName(Component.literal(this.itemName));

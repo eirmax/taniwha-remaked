@@ -15,7 +15,7 @@ public class TMushroomPlantBlock extends MushroomBlock implements BonemealableBl
     private ModifierContainer<Block> modifierContainer;
 
     public TMushroomPlantBlock(ResourceKey<ConfiguredFeature<?, ?>> feature, Properties properties) {
-        super(properties, feature);
+        super(feature, properties);
     }
 
     @Override

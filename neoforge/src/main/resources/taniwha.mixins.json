@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "party.lemons.taniwha.forge.mixin",
+  "package": "party.lemons.taniwha.neoforge.mixin",
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
   "client": [
