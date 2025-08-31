@@ -1,7 +1,8 @@
 package party.lemons.taniwha.block;
 
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.level.pathfinder.PathType;
 
 public interface TBlockExtension
 {
@@ -10,7 +11,7 @@ public interface TBlockExtension
 		return false;
 	}
 
-	default BlockPathTypes getNodePathType()
+	default PathType getNodePathType()
 	{
 		return null;
 	}

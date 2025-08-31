@@ -49,10 +49,10 @@ public class Taniwha
     }
 
     public static ResourceLocation id(String path) {
-        return new ResourceLocation(TConstants.MOD_ID, path);
+        return ResourceLocation.fromNamespaceAndPath(TConstants.MOD_ID, path);
     }
     public static ResourceLocation commonId(String path)
     {
-        return new ResourceLocation(TConstants.COMMON_MOD_ID, path);
+        return ResourceLocation.fromNamespaceAndPath(TConstants.COMMON_MOD_ID, path);
     }
 }
