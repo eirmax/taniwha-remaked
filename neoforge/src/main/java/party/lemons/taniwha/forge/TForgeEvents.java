@@ -1,15 +1,16 @@
 package party.lemons.taniwha.forge;
 
+import dev.architectury.event.events.common.BlockEvent;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.level.BlockEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
 import party.lemons.taniwha.hooks.TEvents;
 
 public class TForgeEvents {
 
 	@SubscribeEvent(priority = EventPriority.HIGH)
-	public static void onPlaceEvent(BlockEvent.EntityPlaceEvent event) {
+	public static void onPlaceEvent(BlockEvent.Place event) {
 		if (event.getLevel() instanceof Level) {
 			TEvents.PLACE.invoker().placeBlock((Level) event.getLevel(), event.getPos(), event.getState(), event.getEntity());
 		}

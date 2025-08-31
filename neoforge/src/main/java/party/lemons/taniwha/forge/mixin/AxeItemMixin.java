@@ -25,7 +25,7 @@ public class AxeItemMixin
     @Unique
     private static boolean tf_stripInit = false;
 
-    @Inject(at = @At("HEAD"), method = "getAxeStrippingState", remap = false)
+    @Inject(at = @At("HEAD"), method = "getStripped", remap = false)
     private static  void getAxeStrippingState(BlockState originalState, CallbackInfoReturnable<BlockState> cbi)
     {
         if(!tf_stripInit)

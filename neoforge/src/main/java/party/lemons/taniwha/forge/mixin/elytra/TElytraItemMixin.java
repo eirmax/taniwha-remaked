@@ -7,6 +7,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import party.lemons.taniwha.item.types.TElytraItem;
 import party.lemons.taniwha.item.types.TItem;
 
+import java.util.Properties;
+
 @Mixin(TElytraItem.class)
 public class TElytraItemMixin extends TItem
 {

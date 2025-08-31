@@ -3,17 +3,17 @@ package party.lemons.taniwha.client.model.forge;
 import com.google.common.collect.Lists;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ModelEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.ModelEvent;
+import party.lemons.taniwha.TConstants;
 
 import java.util.List;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod(TConstants.MOD_ID)
 public class ModelLoaderRegistryImpl
 {
-	private static final List<ResourceLocation> additionalModels = Lists.newArrayList();
+	private static final List<ModelResourceLocation> additionalModels = Lists.newArrayList();
 
 	public static void loadModel(ModelResourceLocation location)
 	{
