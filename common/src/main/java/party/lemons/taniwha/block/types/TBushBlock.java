@@ -1,5 +1,6 @@
 package party.lemons.taniwha.block.types;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BushBlock;
 import party.lemons.taniwha.block.modifier.BlockModifier;
@@ -12,6 +13,11 @@ public class TBushBlock extends BushBlock implements BlockWithModifiers<TBushBlo
 
     public TBushBlock(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    protected MapCodec<? extends BushBlock> codec() {
+        return null;
     }
 
     @Override

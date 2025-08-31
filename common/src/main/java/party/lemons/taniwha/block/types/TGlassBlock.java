@@ -1,18 +1,19 @@
 package party.lemons.taniwha.block.types;
 
-import net.minecraft.world.level.block.AbstractGlassBlock;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.block.StainedGlassBlock;
 import net.minecraft.world.level.block.Block;
 import party.lemons.taniwha.block.modifier.BlockModifier;
 import party.lemons.taniwha.block.modifier.BlockWithModifiers;
 import party.lemons.taniwha.registry.ModifierContainer;
 
-public class TGlassBlock extends AbstractGlassBlock implements BlockWithModifiers<TGlassBlock>
+public class TGlassBlock extends StainedGlassBlock implements BlockWithModifiers<TGlassBlock>
 {
 	private ModifierContainer<Block> modifierContainer;
 
 	public TGlassBlock(Properties properties)
 	{
-		super(properties);
+		super(DyeColor.GRAY, properties);
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package party.lemons.taniwha.block.types;
 
+import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FlowerBlock;
@@ -10,9 +11,10 @@ import party.lemons.taniwha.registry.ModifierContainer;
 public class TFlowerBlock extends FlowerBlock implements BlockWithModifiers<TFlowerBlock> {
     private ModifierContainer<Block> modifierContainer;
 
-    public TFlowerBlock(MobEffect mobEffect, int i, Properties properties) {
-        super(mobEffect, i, properties);
+    public TFlowerBlock(Holder<MobEffect> holder, float f, Properties properties) {
+        super(holder, f, properties);
     }
+
 
     @Override
     public TFlowerBlock modifiers(BlockModifier... modifiers) {
