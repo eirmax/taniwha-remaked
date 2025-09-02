@@ -27,8 +27,8 @@ public class DecorationBlockFactory
 {
     public static final List<DecorationBlockFactory> REGISTERED_FACTORIES = Lists.newArrayList();
 
-    private final List<DecorationBlockFactory.Type> types = Lists.newArrayList();
-    private final Map<DecorationBlockFactory.Type, Supplier<Block>> blocks = Maps.newHashMap();
+    private final List<Type> types = Lists.newArrayList();
+    private final Map<Type, Supplier<Block>> blocks = Maps.newHashMap();
     private final String name;
     private final BlockBehaviour.Properties settings;
     private final Supplier<Block> base;
@@ -57,19 +57,19 @@ public class DecorationBlockFactory
 
     public DecorationBlockFactory slab()
     {
-        types.add(DecorationBlockFactory.Type.SLAB);
+        types.add(Type.SLAB);
         return this;
     }
 
     public DecorationBlockFactory stair()
     {
-        types.add(DecorationBlockFactory.Type.STAIR);
+        types.add(Type.STAIR);
         return this;
     }
 
     public DecorationBlockFactory wall()
     {
-        types.add(DecorationBlockFactory.Type.WALL);
+        types.add(Type.WALL);
         return this;
     }
 
@@ -89,17 +89,17 @@ public class DecorationBlockFactory
         return this;
     }
 
-    private void set(DecorationBlockFactory.Type type, Supplier<Block> block)
+    private void set(Type type, Supplier<Block> block)
     {
         this.blocks.put(type, block);
     }
 
-    public Supplier<Block> get(DecorationBlockFactory.Type type)
+    public Supplier<Block> get(Type type)
     {
         return blocks.get(type);
     }
 
-    public boolean has(DecorationBlockFactory.Type type)
+    public boolean has(Type type)
     {
         return blocks.containsKey(type);
     }
@@ -111,7 +111,7 @@ public class DecorationBlockFactory
 
     public DecorationBlockFactory register(DeferredRegister<Block> blockRegister, DeferredRegister<Item> itemRegister)
     {
-        for(DecorationBlockFactory.Type type : types)
+        for(Type type : types)
         {
             switch (type)
             {
@@ -137,7 +137,7 @@ public class DecorationBlockFactory
             }
         }
 
-        for(DecorationBlockFactory.Type key : blocks.keySet())
+        for(Type key : blocks.keySet())
         {
             Supplier<Block> bl = blocks.get(key);
 
@@ -169,7 +169,7 @@ public class DecorationBlockFactory
 
         public ResourceLocation make(String modid, String name)
         {
-            return new ResourceLocation(modid, name + "_" + postfix);
+            return ResourceLocation.fromNamespaceAndPath(modid, name + "_" + postfix);
         }
     }
 }
