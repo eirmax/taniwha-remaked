@@ -1,22 +1,29 @@
 package party.lemons.taniwha.item;
 
 import com.google.common.collect.LinkedListMultimap;
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
+
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
+
+import party.lemons.taniwha.TConstants;
 import party.lemons.taniwha.item.types.TArmorItem;
 
-import java.util.UUID;
+
 import java.util.function.Supplier;
 
 public class ArmorBuilder
 {
-	private static final UUID DUMMY_UUID = UUID.randomUUID();
-	private static final UUID[] MODIFIERS = new UUID[]{UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"), UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"), UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"), UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150")};
+	private static final String ARMOR_MODIFIER = "armor";
+	private static final String ARMOR_TOUGHNESS_MODIFIER = "armor_toughness";
+	private static final String KNOCKBACK_RESISTANCE_MODIFIER = "knockback_resistance";
+	private static final String ARMOR_SLOT_MODIFIER = "armor_";
+
 
 	private final LinkedListMultimap<Attribute, AttributeModifier> attributes = LinkedListMultimap.create();
 	private final ArmorMaterial material;
@@ -49,30 +56,30 @@ public class ArmorBuilder
 		return this;
 	}
 
-	public ArmorBuilder attribute(String name, Attribute attribute, double value, AttributeModifier.Operation operation)
+	public ArmorBuilder attribute(ResourceLocation name, Attribute attribute, double value, AttributeModifier.Operation operation)
 	{
-		attributes.put(attribute, new AttributeModifier(DUMMY_UUID, name, value, operation));
+		attributes.put(attribute, new AttributeModifier(name, value, operation));
 		return this;
 	}
 
 	public Supplier<Item> build(ArmorItem.Type type, Item.Properties properties)
 	{
 		if(!overrideProtection)
-			protection = material.getDefenseForType(type);
+			protection = material.getDefense(type);
 
-		attributes.removeAll(Attributes.ARMOR);
-		attributes.removeAll(Attributes.ARMOR_TOUGHNESS);
-		attributes.removeAll(Attributes.KNOCKBACK_RESISTANCE);
+		attributes.removeAll(Attributes.ARMOR.value());
+		attributes.removeAll(Attributes.ARMOR_TOUGHNESS.value());
+		attributes.removeAll(Attributes.KNOCKBACK_RESISTANCE.value());
 
-		attributes.put(Attributes.ARMOR, new AttributeModifier(DUMMY_UUID, "Armor modifier", this.protection, AttributeModifier.Operation.ADDITION));
-		attributes.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(DUMMY_UUID, "Armor toughness", this.toughness, AttributeModifier.Operation.ADDITION));
+		attributes.put(Attributes.ARMOR.value(), new AttributeModifier(ResourceLocation.fromNamespaceAndPath(TConstants.MOD_ID, ARMOR_MODIFIER), (double) this.protection, AttributeModifier.Operation.ADD_VALUE));
+		attributes.put(Attributes.ARMOR_TOUGHNESS.value(), new AttributeModifier(ResourceLocation.fromNamespaceAndPath(TConstants.MOD_ID, ARMOR_TOUGHNESS_MODIFIER), (double) this.toughness, AttributeModifier.Operation.ADD_VALUE));
 		if (this.knockbackResistance != 0.0F)
 		{
-			attributes.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(DUMMY_UUID, "Armor knockback resistance", this.knockbackResistance, AttributeModifier.Operation.ADDITION));
+			attributes.put(Attributes.KNOCKBACK_RESISTANCE.value(), new AttributeModifier(ResourceLocation.fromNamespaceAndPath(TConstants.MOD_ID, KNOCKBACK_RESISTANCE_MODIFIER), (double) this.knockbackResistance, AttributeModifier.Operation.ADD_VALUE));
 		}
 
 		LinkedListMultimap<Attribute, AttributeModifier> builtAttributes = buildAttributes(type);
-		return ()->new TArmorItem(material, builtAttributes, protection, toughness, type, properties);
+		return ()->new TArmorItem(Holder.direct(material), builtAttributes, protection, toughness, type, properties);
 	}
 
 	public LinkedListMultimap<Attribute, AttributeModifier> buildAttributes(ArmorItem.Type type)
@@ -82,7 +89,7 @@ public class ArmorBuilder
 		{
 			for(AttributeModifier modifier : attributes.get(attribute))
 			{
-				atts.put(attribute, new AttributeModifier(MODIFIERS[type.getSlot().getIndex()], modifier.getName(), modifier.getAmount(), modifier.getOperation()));
+				atts.put(attribute, new AttributeModifier(ResourceLocation.fromNamespaceAndPath(TConstants.MOD_ID, ARMOR_SLOT_MODIFIER + type.getSlot().getIndex()), modifier.amount(), modifier.operation()));
 			}
 		}
 		return atts;
@@ -91,7 +98,7 @@ public class ArmorBuilder
 	private ArmorBuilder(ArmorMaterial material)
 	{
 		this.material = material;
-		this.toughness = material.getToughness();
-		this.knockbackResistance = material.getKnockbackResistance();
+		this.toughness = material.toughness();
+		this.knockbackResistance = material.knockbackResistance();
 	}
 }
