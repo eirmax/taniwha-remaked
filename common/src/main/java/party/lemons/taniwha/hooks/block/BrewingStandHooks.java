@@ -2,6 +2,7 @@ package party.lemons.taniwha.hooks.block;
 
 import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.Potion;
@@ -15,7 +16,7 @@ public class BrewingStandHooks {
 
     public static void addMix(Potion potion, Item item, Potion result)
     {
-        PotionBrewingInvoker.callAddMix(potion, item, result);
+        PotionBrewingInvoker.callAddMix((Holder<Potion>) potion, item, (Holder<Potion>) result);
     }
 
     public static int getBrewingFuel(BrewingStandBlockEntity brewingStand)
