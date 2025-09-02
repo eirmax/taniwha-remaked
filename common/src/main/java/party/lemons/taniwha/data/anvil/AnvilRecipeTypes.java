@@ -39,7 +39,7 @@ public class AnvilRecipeTypes
         Codec<AnvilRecipeType<?>> codec2 = ExtraCodecs.idResolverCodec(object -> REGISTRY.getKey(object).isPresent() ? REGISTRY.getRawId(object) : -1, REGISTRY::byRawId, -1);
         return ExtraCodecs.overrideLifecycle(ExtraCodecs.orCompressed(codec, codec2), (e)-> Lifecycle.stable(),  (e)->Lifecycle.stable());
     }
-    public static final Codec<AnvilRecipe> CODEC = byNameCodec().dispatch(AnvilRecipe::type, AnvilRecipeType::codec);
+    public static final Codec<AnvilRecipe> CODEC = byNameCodec().dispatch(AnvilRecipe::type, anvilRecipeType -> anvilRecipeType.codec().fieldOf("recipe"));
 
     public static void init()
     {
