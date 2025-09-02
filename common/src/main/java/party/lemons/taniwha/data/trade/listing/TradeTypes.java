@@ -46,7 +46,7 @@ public class TradeTypes
 		Codec<TradeType<?>> codec2 = ExtraCodecs.idResolverCodec(object -> REGISTRY.getKey(object).isPresent() ? REGISTRY.getRawId(object) : -1, REGISTRY::byRawId, -1);
 		return ExtraCodecs.overrideLifecycle(ExtraCodecs.orCompressed(codec, codec2), (e)-> Lifecycle.stable(),  (e)->Lifecycle.stable());
 	}
-	public static final Codec<TItemListing> CODEC = byNameCodec().dispatch(TItemListing::type, TradeType::codec);
+	public static final Codec<TItemListing> CODEC = byNameCodec().dispatch(TItemListing::type, tradeType -> tradeType.codec().fieldOf("data"));
 
 	public static void init()
 	{
