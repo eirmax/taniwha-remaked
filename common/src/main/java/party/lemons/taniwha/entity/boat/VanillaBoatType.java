@@ -23,8 +23,8 @@ public class VanillaBoatType extends BoatType
     public ResourceLocation getTexture(boolean chest)
     {
         if(chest)
-            return new ResourceLocation("minecraft", "textures/entity/chest_boat/" + vanillaType.getName() + ".png");
+            return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/chest_boat/" + vanillaType.getName() + ".png");
 
-        return new ResourceLocation("minecraft", "textures/entity/boat/" + vanillaType.getName() + ".png");
+        return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/boat/" + vanillaType.getName() + ".png");
     }
 }

@@ -2,6 +2,7 @@ package party.lemons.taniwha.client.model.neoforge;
 
 import com.google.common.collect.Lists;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.ModelEvent;

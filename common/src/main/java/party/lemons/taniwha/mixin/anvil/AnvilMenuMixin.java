@@ -1,6 +1,6 @@
 package party.lemons.taniwha.mixin.anvil;
 
-import net.minecraft.Util;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.*;
@@ -44,18 +44,18 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu
             if((ingA.test(item1) && ingB.test(item2)))
             {
                 ItemStack resultStack = recipe.getResult().copy();
-                if(item1.has())
-                    resultStack.set(item1.getTags().coun);
+                if(item1.has(DataComponents.CUSTOM_NAME))
+                    resultStack.set(DataComponents.CUSTOM_NAME, item1.get(DataComponents.CUSTOM_NAME));
                 int finalCost = recipe.getCost();
 
-                if (this.itemName != null && !Util.ifElse(this.itemName)) {
-                    if (!this.itemName.equals(item1.getHoverName().getString())) {
+                if (this.itemName != null && !this.itemName.isEmpty()) {
+                    if (!this.itemName.equals(item1.get(DataComponents.CUSTOM_NAME).getString())) {
                         finalCost += 1;
-                        resultStack.setHoverName(Component.literal(this.itemName));
+                        resultStack.set(DataComponents.CUSTOM_NAME, Component.literal(this.itemName));
                     }
-                } else if (resultStack.hasCustomHoverName()) {
+                } else if (resultStack.has(DataComponents.CUSTOM_NAME)) {
                     finalCost += 1;
-                    resultStack.resetHoverName();
+                    resultStack.remove(DataComponents.CUSTOM_NAME);
                 }
 
                 this.resultSlots.setItem(0, resultStack);

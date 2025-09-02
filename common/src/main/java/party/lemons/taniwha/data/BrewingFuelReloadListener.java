@@ -3,6 +3,7 @@ package party.lemons.taniwha.data;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.serialization.JsonOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -31,7 +32,7 @@ public class BrewingFuelReloadListener extends SimpleJsonResourceReloadListener
             //Empty objects ( {} ) are ignored. This is so you can override a fuel.
             if(!object.entrySet().isEmpty())
             {
-                Ingredient ingredient = Ingredient.fromJson(object.getAsJsonObject("item"));
+                Ingredient ingredient = Ingredient.CODEC.parse(JsonOps.INSTANCE, object.getAsJsonObject("item")).getOrThrow();
                 int fuel = object.getAsJsonPrimitive("fuel").getAsInt();
                 BrewingStandHooks.registerBrewingFuelItem(ingredient, fuel);
             }

@@ -1,6 +1,5 @@
 package party.lemons.taniwha.block.types;
 
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
@@ -13,10 +12,10 @@ public class TWoodenPressurePlateBlock extends PressurePlateBlock implements Blo
 {
     private ModifierContainer<Block> modifierContainer;
 
-    public TWoodenPressurePlateBlock(Sensitivity type, BlockSetType setType, Properties settings)
-    {
-        super(type, settings, setType);
+    public TWoodenPressurePlateBlock(BlockSetType blockSetType, BlockSetType setType, Properties properties) {
+        super(blockSetType, properties);
     }
+
 
     @Override
     public TWoodenPressurePlateBlock modifiers(BlockModifier... modifiers) {

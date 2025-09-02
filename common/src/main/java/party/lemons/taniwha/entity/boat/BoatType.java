@@ -7,8 +7,8 @@ import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.ChestBoatModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
+import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
@@ -41,16 +41,16 @@ public class BoatType
         BoatTypes.TYPES.add(this);
         BoatTypes.TYPES_MAP.put(id, this);
         EnvExecutor.runInEnv(Env.CLIENT, ()->()->{
-            EntityModelLayerRegistry.register(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, getModelLocation()), "main"), shape.getLayerDefinition());
-            EntityModelLayerRegistry.register(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, getChestModelLocation()), "main"), shape.getChestLayerDefinition());
+            EntityModelLayerRegistry.register(new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(TConstants.MOD_ID, getModelLocation()), "main"), shape.getLayerDefinition());
+            EntityModelLayerRegistry.register(new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(TConstants.MOD_ID, getChestModelLocation()), "main"), shape.getChestLayerDefinition());
         });
     }
 
     public ResourceLocation getTexture(boolean hasChest)
     {
         if(hasChest)
-            return new ResourceLocation(id.getNamespace(), "textures/entity/boat/" + id.getPath() + "_chest.png");
-        return new ResourceLocation(id.getNamespace(), "textures/entity/boat/" + id.getPath() + ".png");
+            return ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "textures/entity/boat/" + id.getPath() + "_chest.png");
+        return  ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "textures/entity/boat/" + id.getPath() + ".png");
     }
 
     public String getModelLocation()
@@ -79,12 +79,12 @@ public class BoatType
 
         @Override
         public ItemStack execute(BlockSource blockSource, ItemStack itemStack) {
-            Direction direction = blockSource.getBlockState().getValue(DispenserBlock.FACING);
-            Level level = blockSource.getLevel();
-            double xx = blockSource.x() + (double)((float)direction.getStepX() * 1.125F);
-            double yy = blockSource.y() + (double)((float)direction.getStepY() * 1.125F);
-            double zz = blockSource.z() + (double)((float)direction.getStepZ() * 1.125F);
-            BlockPos placePosition = blockSource.getPos().relative(direction);
+            Direction direction = blockSource.state().getValue(DispenserBlock.FACING);
+            Level level = blockSource.level();
+            double xx = blockSource.center().x + (double)((float)direction.getStepX() * 1.125F);
+            double yy = blockSource.center().y + (double)((float)direction.getStepY() * 1.125F);
+            double zz = blockSource.center().z + (double)((float)direction.getStepZ() * 1.125F);
+            BlockPos placePosition = blockSource.pos().relative(direction);
             double yOffset;
             if (level.getFluidState(placePosition).is(FluidTags.WATER)) {
                 yOffset = 1.0;
@@ -107,8 +107,8 @@ public class BoatType
         }
 
         @Override
-        protected void playSound(BlockSource blockSource) {
-            blockSource.getLevel().levelEvent(1000, blockSource.getPos(), 0);
+        public void playSound(net.minecraft.core.dispenser.BlockSource blockSource) {
+            blockSource.level().levelEvent(1000, blockSource.pos(), 0);
         }
     }
 

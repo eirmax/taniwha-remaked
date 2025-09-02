@@ -37,8 +37,8 @@ public class BoatShape
 	public ListModel<Boat> createModel(EntityRendererProvider.Context context, BoatType type, boolean chest)
 	{
 		if(chest)
-			return new ChestBoatModel(context.bakeLayer(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, type.getChestModelLocation()), "main")));
+			return new ChestBoatModel(context.bakeLayer(new ModelLayerLocation( ResourceLocation.fromNamespaceAndPath(TConstants.MOD_ID, type.getChestModelLocation()), "main")));
 		else
-			return new BoatModel(context.bakeLayer(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, type.getModelLocation()), "main")));
+			return new BoatModel(context.bakeLayer(new ModelLayerLocation( ResourceLocation.fromNamespaceAndPath(TConstants.MOD_ID, type.getModelLocation()), "main")));
 	}
 }

@@ -1,6 +1,7 @@
 package party.lemons.taniwha.entity.boat;
 
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -59,13 +60,13 @@ public class TChestBoat extends TBoat implements HasCustomInventoryScreen, Conta
 	@Override
 	protected void addAdditionalSaveData(CompoundTag compoundTag) {
 		super.addAdditionalSaveData(compoundTag);
-		this.addChestVehicleSaveData(compoundTag);
+		this.addChestVehicleSaveData(compoundTag, this.registryAccess());
 	}
 
 	@Override
 	protected void readAdditionalSaveData(CompoundTag compoundTag) {
 		super.readAdditionalSaveData(compoundTag);
-		this.readChestVehicleSaveData(compoundTag);
+		this.readChestVehicleSaveData(compoundTag, this.registryAccess());
 	}
 
 	@Override
@@ -172,12 +173,12 @@ public class TChestBoat extends TBoat implements HasCustomInventoryScreen, Conta
 
 	@Override
 	public ResourceKey<LootTable> getLootTable() {
-		return.lootTable;
+		return this.lootTable != null ? ResourceKey.create(Registries.LOOT_TABLE, this.lootTable) : null;
 	}
 
 	@Override
 	public void setLootTable(@Nullable ResourceKey<LootTable> resourceKey) {
-		this.lootTable = resourceKey.location();
+		this.lootTable = resourceKey != null ? resourceKey.location() : null;
 	}
 
 	@Override

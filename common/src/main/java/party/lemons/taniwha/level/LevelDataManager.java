@@ -2,6 +2,7 @@ package party.lemons.taniwha.level;
 
 import com.google.common.collect.Maps;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -16,6 +17,8 @@ import java.util.Map;
 public class LevelDataManager extends SavedData
 {
     private static final Map<ResourceLocation, LevelDataFactory> FACTORIES = Maps.newHashMap();
+
+
     public static void registerData(ResourceLocation id, LevelDataFactory factory)
     {
         FACTORIES.put(id, factory);
@@ -28,6 +31,13 @@ public class LevelDataManager extends SavedData
 
     private final Map<ResourceLocation, LevelData> levelData = Maps.newHashMap();
 
+    // Constructor for new instances (when no saved data exists)
+    public LevelDataManager(ServerLevel serverLevel)
+    {
+        // No data to load, just initialize empty
+    }
+
+    // Constructor for loading from existing NBT data
     public LevelDataManager(ServerLevel serverLevel, CompoundTag tag)
     {
         loadFrom(serverLevel, tag);
@@ -43,7 +53,7 @@ public class LevelDataManager extends SavedData
             CompoundTag dataTag = dataList.getCompound(i);
             ResourceLocation location = ResourceLocation.tryParse(dataTag.getString("data_id"));
 
-            if(!FACTORIES.containsKey(location))
+            if(location == null || !FACTORIES.containsKey(location))
                 continue;
 
             LevelData data = FACTORIES.get(location).create(level, dataTag);
@@ -65,7 +75,12 @@ public class LevelDataManager extends SavedData
     public LevelData getOrCreate(ResourceLocation location, ServerLevel level)
     {
         if(!levelData.containsKey(location))
+        {
+            if(!FACTORIES.containsKey(location))
+                return null; // Factory not registered
+
             levelData.put(location, FACTORIES.get(location).create(level, null));
+        }
 
         return levelData.get(location);
     }
@@ -87,35 +102,34 @@ public class LevelDataManager extends SavedData
     {
         levelData.put(location, data);
         if(markDirty)
-            setDirty(true);
+            setDirty();
     }
 
+
     @Override
-    public CompoundTag save(CompoundTag tag)
-    {
+    public CompoundTag save(CompoundTag compoundTag, HolderLookup.Provider provider) {
         ListTag dataTag = new ListTag();
         for(ResourceLocation location : levelData.keySet())
         {
             CompoundTag levelTag = new CompoundTag();
             levelTag.putString("data_id", location.toString());
-            levelData.get(location).save(levelTag);
+            levelData.get(location).save(levelTag, provider);
 
             dataTag.add(levelTag);
         }
 
-        tag.put("data", dataTag);
+        compoundTag.put("data", dataTag);
 
-        return tag;
+        return compoundTag;
     }
 
     @Override
     public boolean isDirty() {
-
         for(ResourceLocation location : levelData.keySet())
         {
             if(levelData.get(location).isDirty())
             {
-                setDirty(true);
+                setDirty();
                 return true;
             }
         }
@@ -133,5 +147,7 @@ public class LevelDataManager extends SavedData
     {
         ResourceLocation location = holder.unwrapKey().get().location();
         return TConstants.MOD_ID + "_" + location.getNamespace() + "_" + location.getPath();
+
     }
+
 }

@@ -13,6 +13,6 @@ public class PotteryPatternHooks
 	public static void addPotteryPatternItem(Item item, ResourceLocation pattern)
 	{
 		DecoratedPotPatterns.ITEM_TO_POT_TEXTURE = new HashMap<>(DecoratedPotPatterns.ITEM_TO_POT_TEXTURE);
-		DecoratedPotPatterns.ITEM_TO_POT_TEXTURE.put(item, ResourceKey.create(Registries.DECORATED_POT_PATTERNS, pattern));
+		DecoratedPotPatterns.ITEM_TO_POT_TEXTURE.put(item, ResourceKey.create(Registries.DECORATED_POT_PATTERN, pattern));
 	}
 }

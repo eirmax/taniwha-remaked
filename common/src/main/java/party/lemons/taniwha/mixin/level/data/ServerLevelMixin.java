@@ -1,11 +1,14 @@
 package party.lemons.taniwha.mixin.level.data;
 
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.progress.ChunkProgressListener;
+import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.RandomSequences;
 import net.minecraft.world.entity.raid.Raids;
@@ -14,6 +17,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.dimension.LevelStem;
+import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
 import net.minecraft.world.level.storage.LevelStorageSource;
 import net.minecraft.world.level.storage.ServerLevelData;
@@ -25,6 +29,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import party.lemons.taniwha.level.LevelData;
 import party.lemons.taniwha.level.LevelDataHolder;
 import party.lemons.taniwha.level.LevelDataManager;
 
@@ -46,7 +51,16 @@ public abstract class ServerLevelMixin extends Level implements LevelDataHolder 
     @Inject(at = @At("TAIL"), method = "<init>")
     private void onInit(MinecraftServer minecraftServer, Executor executor, LevelStorageSource.LevelStorageAccess levelStorageAccess, ServerLevelData serverLevelData, ResourceKey<Level> resourceKey, LevelStem levelStem, ChunkProgressListener chunkProgressListener, boolean bl, long l, List<CustomSpawner> list, boolean bl2, @Nullable RandomSequences randomSequences, CallbackInfo cbi)
     {
-        dataManager = this.getDataStorage().computeIfAbsent(tag -> new LevelDataManager(((ServerLevel) (Object)this),tag), () -> new LevelDataManager(((ServerLevel) (Object)this),null), LevelDataManager.getFileId(this.dimensionTypeRegistration()));
+        SavedData.Factory<LevelDataManager> factory = new SavedData.Factory<>(
+                () -> new LevelDataManager((ServerLevel) (Object) this),
+                (CompoundTag tag, HolderLookup.Provider provider) -> new LevelDataManager((ServerLevel) (Object) this, tag),
+                DataFixTypes.LEVEL
+        );
+
+        dataManager = this.getDataStorage().computeIfAbsent(
+                factory,
+                LevelDataManager.getFileId(this.dimensionTypeRegistration())
+        );
     }
 
     @Inject(at = @At("TAIL"), method = "tick")

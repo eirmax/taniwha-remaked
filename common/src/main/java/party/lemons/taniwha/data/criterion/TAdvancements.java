@@ -9,7 +9,7 @@ public class TAdvancements
 
 	public static void init()
 	{
-		CriteriaTriggers.register(WEAR_ARMOUR);
+		CriteriaTriggers.register(WEAR_ARMOUR.getId().toString(), WEAR_ARMOUR);
 	}
 
 }

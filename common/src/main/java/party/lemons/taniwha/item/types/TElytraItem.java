@@ -1,5 +1,6 @@
 package party.lemons.taniwha.item.types;
 
+import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
@@ -43,15 +44,16 @@ public class TElytraItem extends TItem implements TElytra, Equipable
 
 		if (!entity.level().isClientSide && nextRoll % 10 == 0) {
 			if ((nextRoll / 10) % 2 == 0) {
-				chestStack.hurtAndBreak(1, entity, p -> p.broadcastBreakEvent(EquipmentSlot.CHEST));
+				chestStack.hurtAndBreak(1, entity, EquipmentSlot.CHEST);
 			}
 
 			entity.gameEvent(GameEvent.ELYTRA_GLIDE);
 		}
 	}
 
+
 	@Override
-	public @NotNull SoundEvent getEquipSound() {
+	public Holder<SoundEvent> getEquipSound() {
 		return SoundEvents.ARMOR_EQUIP_ELYTRA;
 	}
 

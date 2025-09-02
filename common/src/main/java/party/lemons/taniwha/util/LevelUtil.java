@@ -11,13 +11,13 @@ public class LevelUtil
 
     public static void playBlockPlaceSound(Level level, Block block, BlockPos blockPos)
     {
-        SoundType type = block.getSoundType(block.defaultBlockState());
+        SoundType type = block.defaultBlockState().getSoundType();
         level.playSound(null, blockPos, type.getPlaceSound(), SoundSource.BLOCKS, (type.getVolume() + 1.0f) / 2.0f, type.getPitch() * 0.8f);
     }
 
     public static void playBlockBreakSound(Level level, Block block, BlockPos blockPos)
     {
-        SoundType type = block.getSoundType(block.defaultBlockState());
+        SoundType type = block.defaultBlockState().getSoundType();
         level.playSound(null, blockPos, type.getBreakSound(), SoundSource.BLOCKS, (type.getVolume() + 1.0f) / 2.0f, type.getPitch() * 0.8f);
     }
 }

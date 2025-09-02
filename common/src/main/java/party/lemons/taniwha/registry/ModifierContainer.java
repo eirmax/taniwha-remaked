@@ -2,7 +2,6 @@ package party.lemons.taniwha.registry;
 
 public record ModifierContainer<T>(T type, Modifier<T>... modifiers)
 {
-    @SafeVarargs
     public ModifierContainer
     {
     }

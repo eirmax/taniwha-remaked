@@ -1,11 +1,15 @@
 package party.lemons.taniwha.data.criterion;
 
-import com.google.gson.JsonObject;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
-public class SimpleCriterion extends SimpleCriterionTrigger<SimpleCriterion.Conditions>
+import java.util.Optional;
+
+public class SimpleCriterion extends SimpleCriterionTrigger<SimpleCriterion.TriggerInstance>
 {
     private final ResourceLocation ID;
 
@@ -14,14 +18,11 @@ public class SimpleCriterion extends SimpleCriterionTrigger<SimpleCriterion.Cond
         ID = location;
     }
 
-
     @Override
-    protected Conditions createInstance(JsonObject jsonObject, ContextAwarePredicate contextAwarePredicate, DeserializationContext deserializationContext)
-    {
-        return new Conditions(ID, contextAwarePredicate);
+    public Codec<TriggerInstance> codec() {
+        return TriggerInstance.CODEC;
     }
 
-    @Override
     public ResourceLocation getId() {
         return ID;
     }
@@ -31,10 +32,16 @@ public class SimpleCriterion extends SimpleCriterionTrigger<SimpleCriterion.Cond
         this.trigger(player, (conditions)->true);
     }
 
-    public static class Conditions extends AbstractCriterionTriggerInstance
-    {
-        public Conditions(ResourceLocation resourceLocation, ContextAwarePredicate contextAwarePredicate) {
-            super(resourceLocation, contextAwarePredicate);
+    public record TriggerInstance(Optional<ContextAwarePredicate> player) implements SimpleCriterionTrigger.SimpleInstance {
+        
+        public static final Codec<TriggerInstance> CODEC = RecordCodecBuilder.create(instance ->
+            instance.group(
+                EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(TriggerInstance::player)
+            ).apply(instance, TriggerInstance::new)
+        );
+
+        public static TriggerInstance simple() {
+            return new TriggerInstance(Optional.empty());
         }
     }
 }
