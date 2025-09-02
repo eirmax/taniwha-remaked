@@ -1,21 +1,25 @@
 package party.lemons.taniwha.util;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.providers.EnchantmentProvider;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
@@ -42,12 +46,16 @@ public class ItemUtil
 		}
 	}
 
-	public static void hurtAndBreakOnBlock(@Nullable Player player, ItemStack stack, InteractionHand hand, BlockPos pos)
-	{
+	public static void hurtAndBreakOnBlock(@Nullable Player player, ItemStack stack, InteractionHand hand, BlockPos pos) {
 		if (player instanceof ServerPlayer) {
 			CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer)player, pos, stack);
 		}
-		stack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(hand));
+
+		// Fixed: Convert InteractionHand to EquipmentSlot
+		EquipmentSlot slot = hand == InteractionHand.MAIN_HAND ?
+				EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
+
+		stack.hurtAndBreak(1, player, slot);
 	}
 
 	/*
@@ -63,20 +71,17 @@ public class ItemUtil
 		Run a consumer on each enchantment on an itemstack
 		allowEmpty to run on empty itemstacks
 	 */
-	public static void forEachEnchantment(Consumer consumer, ItemStack stack, boolean allowEmpty)
-	{
-		if(!stack.isEmpty() || allowEmpty)
-		{
-			ListTag listTag = stack.getEnchantmentTags();
-
-			for(int i = 0; i < listTag.size(); ++i)
-			{
-				String string = listTag.getCompound(i).getString("id");
-				int j = listTag.getCompound(i).getInt("lvl");
-				BuiltInRegistries.ENCHANTMENT.getOptional(ResourceLocation.tryParse(string)).ifPresent((enchantment)->
-				{
-					consumer.accept(enchantment, stack, j);
-				});
+	public static void forEachEnchantment(Consumer consumer, ItemStack stack, boolean allowEmpty) {
+		if(!stack.isEmpty() || allowEmpty) {
+			var enchantments = stack.get(DataComponents.ENCHANTMENTS);
+			if(enchantments != null) {
+				for(var entry : enchantments.entrySet()) {
+					entry.getKey().unwrapKey().ifPresent(key -> {
+						BuiltInRegistries.ENCHANTMENT_PROVIDER_TYPE.getOptional(key.location()).ifPresent((enchantment) -> {
+							consumer.accept(enchantment, stack, entry.getValue());
+						});
+					});
+				}
 			}
 		}
 	}
@@ -86,12 +91,16 @@ public class ItemUtil
 	 */
 	public static void dropLootTable(Level level, double x, double y, double z, ResourceLocation table) {
 
-		LootTable lootTable = level.getServer().getLootData().getLootTable(table);
+		ResourceKey<LootTable> lootTableKey = ResourceKey.create(
+				Registries.LOOT_TABLE,
+				table
+		);
+
+		LootTable lootTable = level.getServer().reloadableRegistries().getLootTable(lootTableKey);
 
 		LootParams.Builder context = new LootParams.Builder((ServerLevel) level);
-		lootTable.getRandomItems(context.create(LootContextParamSets.EMPTY), (i)->spawnItemStack(level, i, x, y, z));
+		lootTable.getRandomItems(context.create(LootContextParamSets.EMPTY), (i) -> spawnItemStack(level, i, x, y, z));
 	}
-
 	/*
 		Spawns an itemstack with random pop velocity
 	 */
@@ -131,6 +140,6 @@ public class ItemUtil
 	@FunctionalInterface
 	public interface Consumer
 	{
-		void accept(Enchantment enchantment, ItemStack stack, int level);
+		void accept(MapCodec<? extends EnchantmentProvider> enchantment, ItemStack stack, int level);
 	}
 }

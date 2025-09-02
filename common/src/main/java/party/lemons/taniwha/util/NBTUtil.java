@@ -5,6 +5,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.phys.AABB;
 
+import java.util.Optional;
+
 public final class NBTUtil
 {
     public static String BLOCKPOS_TAG = "TBlockPos";
@@ -19,11 +21,11 @@ public final class NBTUtil
         tag.put(BLOCKPOS_TAG, NbtUtils.writeBlockPos(pos));
     }
 
-    public static BlockPos readBlockPos(CompoundTag tag)
+    public static Optional<BlockPos> readBlockPos(CompoundTag tag)
     {
         String tagString = tag.contains(COMPAT_BLOCKPOS_TAG) ? COMPAT_BLOCKPOS_TAG : BLOCKPOS_TAG;
 
-        return NbtUtils.readBlockPos(tag.getCompound(tagString));
+        return NbtUtils.readBlockPos(tag.getCompound(tagString), String.valueOf(tag));
     }
 
     public static void writeBox(AABB box, CompoundTag tag)

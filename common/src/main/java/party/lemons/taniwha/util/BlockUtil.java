@@ -1,5 +1,6 @@
 package party.lemons.taniwha.util;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -10,6 +11,11 @@ public class BlockUtil
 	{
 		BlockBehaviour behaviour = new BlockBehaviour(toCopy)
 		{
+			@Override
+			protected MapCodec<? extends Block> codec() {
+				return null;
+			}
+
 			@Override
 			public Item asItem()
 			{
@@ -22,6 +28,6 @@ public class BlockUtil
 				return null;
 			}
 		};
-		return BlockBehaviour.Properties.copy(behaviour);
+		return BlockBehaviour.Properties.ofFullCopy(behaviour);
 	}
 }
