@@ -1,10 +1,7 @@
 package party.lemons.taniwha.block.types;
 
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FenceGateBlock;
-import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import org.jetbrains.annotations.Nullable;
 import party.lemons.taniwha.block.modifier.BlockModifier;
@@ -17,7 +14,7 @@ public class TFenceGateBlock extends FenceGateBlock implements BlockWithModifier
 
     public TFenceGateBlock(Properties properties, WoodType woodType)
     {
-        super(properties, woodType);
+        super(woodType, properties);
     }
 
     @Override

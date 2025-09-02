@@ -11,6 +11,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.Item;
@@ -37,10 +38,10 @@ public class TBoat extends Boat implements EntitySpawnExtension
     }
 
     @Override
-    protected void defineSynchedData()
+    protected void defineSynchedData(SynchedEntityData.Builder builder)
     {
-        super.defineSynchedData();
-        this.entityData.define(BOAT_TYPE, BoatTypes.ACACIA.id.toString());
+        super.defineSynchedData(builder);
+        builder.define(BOAT_TYPE, BoatTypes.ACACIA.id.toString());
     }
 
     public void setBoatType(BoatType type)
@@ -51,7 +52,7 @@ public class TBoat extends Boat implements EntitySpawnExtension
         this.getEntityData().set(BOAT_TYPE, type.id.toString());
     }
 
-    @Override
+
     public double getPassengersRidingOffset()
     {
         return getNewBoatType().shape.getPassengersRidingOffset();
@@ -59,7 +60,7 @@ public class TBoat extends Boat implements EntitySpawnExtension
 
     public BoatType getNewBoatType()
     {
-        return BoatTypes.TYPES_MAP.get(new ResourceLocation(this.getEntityData().get(BOAT_TYPE)));
+        return BoatTypes.TYPES_MAP.get(ResourceLocation.parse(this.getEntityData().get(BOAT_TYPE)));
     }
 
     @Override
@@ -72,7 +73,7 @@ public class TBoat extends Boat implements EntitySpawnExtension
     protected void readAdditionalSaveData(CompoundTag tag) {
         if(tag.contains(TAG_TYPE, Tag.TAG_STRING))
         {
-            this.setBoatType(BoatTypes.TYPES_MAP.get(new ResourceLocation(tag.getString(TAG_TYPE))));
+            this.setBoatType(BoatTypes.TYPES_MAP.get(ResourceLocation.parse(tag.getString(TAG_TYPE))));
         }
     }
 
@@ -81,10 +82,9 @@ public class TBoat extends Boat implements EntitySpawnExtension
         tag.putString(TAG_TYPE, getNewBoatType().id.toString());
     }
 
-
     @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkManager.createAddEntityPacket(this);
+    public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity serverEntity) {
+        return NetworkManager.createAddEntityPacket(this, null);
     }
 
     @Override
@@ -96,6 +96,6 @@ public class TBoat extends Boat implements EntitySpawnExtension
     @Override
     public void loadAdditionalSpawnData(FriendlyByteBuf buf)
     {
-        setBoatType(BoatTypes.TYPES_MAP.get(new ResourceLocation(buf.readUtf())));
+        setBoatType(BoatTypes.TYPES_MAP.get(ResourceLocation.parse(buf.readUtf())));
     }
 }
