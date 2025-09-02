@@ -36,8 +36,8 @@ public class RaftBoatShape extends BoatShape
 	public ListModel<Boat> createModel(EntityRendererProvider.Context context, BoatType type, boolean chest)
 	{
 		if(chest)
-			return new ChestRaftModel(context.bakeLayer(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, type.getChestModelLocation()), "main")));
+			return new ChestRaftModel(context.bakeLayer(new ModelLayerLocation( ResourceLocation.fromNamespaceAndPath(TConstants.MOD_ID, type.getChestModelLocation()), "main")));
 		else
-			return new RaftModel(context.bakeLayer(new ModelLayerLocation(new ResourceLocation(TConstants.MOD_ID, type.getModelLocation()), "main")));
+			return new RaftModel(context.bakeLayer(new ModelLayerLocation( ResourceLocation.fromNamespaceAndPath(TConstants.MOD_ID, type.getModelLocation()), "main")));
 	}
 }
