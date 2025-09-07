@@ -1,5 +1,6 @@
 package party.lemons.taniwha.neoforge;
 
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.minecraft.world.level.Level;
 
@@ -7,6 +8,7 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import party.lemons.taniwha.hooks.TEvents;
 
+@EventBusSubscriber
 public class TForgeEvents {
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public static void onPlaceEvent(BlockEvent.EntityPlaceEvent event) {
