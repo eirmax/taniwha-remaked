@@ -22,7 +22,7 @@ public class FireBlockMixin
 		}
 	}
 
-	@Inject(at = @At("HEAD"), method = "getIgniteOdds", cancellable = true)
+	@Inject(at = @At("HEAD"), method = "getIgniteOdds*", cancellable = true)
 	private void t_getIgniteOdds(BlockState blockState, CallbackInfoReturnable<Integer> cbi)
 	{
 		FlammabilityRegistry.Entry entry;

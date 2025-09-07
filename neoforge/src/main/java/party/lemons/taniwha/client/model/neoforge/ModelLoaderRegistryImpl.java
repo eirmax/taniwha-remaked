@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import party.lemons.taniwha.TConstants;
@@ -11,6 +12,7 @@ import party.lemons.taniwha.TConstants;
 import java.util.List;
 
 @Mod(TConstants.MOD_ID)
+@EventBusSubscriber
 public class ModelLoaderRegistryImpl
 {
 	private static final List<ModelResourceLocation> additionalModels = Lists.newArrayList();
