@@ -14,7 +14,7 @@ import party.lemons.taniwha.util.TaniwhaTags;
 @Mixin(CapeLayer.class)
 public class CapeLayerMixin
 {
-	@Inject(at = @At("HEAD"), method = "render", cancellable = true)
+	@Inject(at = @At("HEAD"), method = "render*", cancellable = true)
 	public void render(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, AbstractClientPlayer player, float f, float g, float h, float j, float k, float l, CallbackInfo cbi)
 	{
 		if(player.getItemBySlot(EquipmentSlot.CHEST).is(TaniwhaTags.T_ELYTRA))
