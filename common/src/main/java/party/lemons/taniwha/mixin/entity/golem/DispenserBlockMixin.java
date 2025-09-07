@@ -20,7 +20,8 @@ public class DispenserBlockMixin implements DispenserBlockHooks {
 
     @Override
     public boolean hasBehaviour(Item item) {
-        return DISPENSER_REGISTRY.containsKey(item);
+        boolean result = DISPENSER_REGISTRY.containsKey(item);
+        return result;
     }
 
     @Shadow @Final private static Map<Item, DispenseItemBehavior> DISPENSER_REGISTRY;
