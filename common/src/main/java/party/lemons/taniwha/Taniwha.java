@@ -2,17 +2,14 @@ package party.lemons.taniwha;
 
 import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.registry.ReloadListenerRegistry;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import party.lemons.taniwha.block.TBlockTags;
-import party.lemons.taniwha.client.model.ModelLoaderRegistry;
 import party.lemons.taniwha.config.TaniwhaConfig;
 import party.lemons.taniwha.data.BrewingFuelReloadListener;
 import party.lemons.taniwha.data.CompostReloadListener;
 import party.lemons.taniwha.data.anvil.AnvilRecipeReloadListener;
 import party.lemons.taniwha.data.anvil.AnvilRecipeTypes;
-import party.lemons.taniwha.data.criterion.TAdvancements;
 import party.lemons.taniwha.data.trade.TradeListReloadListener;
 import party.lemons.taniwha.data.trade.listing.TradeTypes;
 import party.lemons.taniwha.entity.TEntities;
@@ -34,8 +31,8 @@ public class Taniwha
         TNetwork.init();
         TradeTypes.init();
         AnvilRecipeTypes.init();
-        TAdvancements.init();
         TStructureProcessors.init();
+
 
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new BrewingFuelReloadListener());
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new CompostReloadListener());
