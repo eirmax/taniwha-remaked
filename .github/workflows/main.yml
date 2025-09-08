@@ -1,0 +1,42 @@
+name: Build
+on: [push, pull_request]
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        java: [21]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Set Swap Space
+        uses: pierotofy/set-swap-space@master
+        with:
+          swap-size-gb: 10
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v2
+
+      - name: Set up JDK ${{ matrix.java }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java }}
+            - name: Grant execute permission for gradlew
+              run: chmod +x gradlew
+            - name: Build with Gradle
+              id: build
+              run: ./gradlew setupActions build publish --no-daemon
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: "Create a Release"
+              id: create_release
+              uses: meeDamian/github-release@2.0
+              with:
+                tag: ${{ steps.build.outputs.version }}
+                files: "fabric/build/libs/${{ steps.build.outputs.modid }}-fabric-${{ steps.build.outputs.version }}.jar neoforge/build/libs/${{ steps.build.outputs.modid }}-neoforge-${{ steps.build.outputs.version }}.jar build/libs/${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}.jar"
+                gzip: false
+                name: "${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}"
+                token: "${{ secrets.GITHUB_TOKEN }}"
+          distribution: ''
