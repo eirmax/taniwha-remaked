@@ -15,7 +15,7 @@ version = project.mod_version
 group = project.maven_group
 
 base {
-    archivesName = "taniwha-neoforge"
+    archivesName = "taniwha-remaked-neoforge"
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
@@ -80,15 +80,17 @@ publishing {
             from components.java
         }
     }
-
     repositories {
-        maven {
-            name = "GitHubPackages"
-            url = "https://maven.pkg.github.com/lemonszz/taniwha"
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
-            }
-        }
+        mavenLocal()
     }
+     repositories {
+         maven {
+             name = "GitHubPackages"
+             url = uri("https://maven.pkg.github.com/eirmax/taniwha-remaked")
+             credentials {
+                 username = project.findProperty("gpr.user")
+                 password = project.findProperty("gpr.key")
+             }
+         }
+     }
 }

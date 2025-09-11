@@ -1,13 +1,13 @@
 modLoader = "javafml"
 loaderVersion = "[4,)"
-issueTrackerURL = "https://github.com/lemonszz/taniwha/issues"
+#issueTrackerURL = "https://github.com/lemonszz/taniwha/issues"
 license = "MIT"
 
 [[mods]]
 modId = "taniwha"
 version = "${version}"
 displayName = "Taniwha"
-authors = "Lemons"
+authors = "eirmax"
 description = '''
 Library for LASER KNIGHTS mods (Biome Makeover)
 '''

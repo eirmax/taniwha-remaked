@@ -2,6 +2,18 @@ plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "1.11-SNAPSHOT" apply false
     id 'io.github.juuxel.loom-quiltflower' version '1.8.0' apply false
+    id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
+}
+
+def secretsFile = file('secret/secrets.properties')
+if (secretsFile.exists()) {
+    secretsFile.withInputStream { stream ->
+        def props = new Properties()
+        props.load(stream)
+        props.each { key, value ->
+            project.ext.set(key, value)
+        }
+    }
 }
 
 architectury {
@@ -11,6 +23,7 @@ architectury {
 subprojects {
     apply plugin: "dev.architectury.loom"
     apply plugin: "io.github.juuxel.loom-quiltflower"
+    apply plugin: "maven-publish"
 
     loom {
         silentMojangMappingsLicense()
@@ -45,21 +58,36 @@ allprojects {
     }
 
     java {
+
     }
 
-    /*
-    publishing {
-        publications {
-            mavenJava(MavenPublication) {
-                artifactId = rootProject.archives_base_name + "-" + project.name
-                from components.java
+}
+
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = 'eirmax'
+            artifactId = 'taniwha-remaked-parent'
+            version = rootProject.mod_version
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/eirmax/taniwha-remaked")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("GPR_USER") ?: ""
+                password = project.findProperty("gpr.key") ?: System.getenv("GPR_KEY") ?: ""
             }
         }
-        repositories {
-            mavenLocal()
-        }
-    }*/
+    }
 }
+
 
 task setupActions() {
     doLast {
