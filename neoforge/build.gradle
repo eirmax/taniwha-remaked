@@ -38,7 +38,7 @@ dependencies {
     // MixinExtras
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
+    shadowCommon(project(path: ":common", configuration: "namedElements")) { transitive = false }
 }
 
 processResources {
