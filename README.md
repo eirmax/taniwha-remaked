@@ -1,8 +1,3 @@
-> [!IMPORTANT]  
-> This project and repository is now archived.
-> There are no further updates or fixes planned.
-
-
 ## Taniwha
 ### A general purpose library to be used with Architectury mods
 
