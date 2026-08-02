@@ -1,11 +1,5 @@
 package party.lemons.taniwha.entity.boat;
 
-import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
-import dev.architectury.utils.Env;
-import dev.architectury.utils.EnvExecutor;
-import net.minecraft.client.model.BoatModel;
-import net.minecraft.client.model.ChestBoatModel;
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.BlockSource;
@@ -19,7 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
-import party.lemons.taniwha.TConstants;
 
 import java.util.function.Supplier;
 
@@ -40,10 +33,6 @@ public class BoatType
 
         BoatTypes.TYPES.add(this);
         BoatTypes.TYPES_MAP.put(id, this);
-        EnvExecutor.runInEnv(Env.CLIENT, ()->()->{
-            EntityModelLayerRegistry.register(new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(TConstants.MOD_ID, getModelLocation()), "main"), shape.getLayerDefinition());
-            EntityModelLayerRegistry.register(new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(TConstants.MOD_ID, getChestModelLocation()), "main"), shape.getChestLayerDefinition());
-        });
     }
 
     public ResourceLocation getTexture(boolean hasChest)

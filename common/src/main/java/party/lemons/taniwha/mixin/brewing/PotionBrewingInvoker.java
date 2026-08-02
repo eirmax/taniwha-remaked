@@ -11,17 +11,11 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface PotionBrewingInvoker {
 
 	@Invoker("addMix")
-	static void callAddMix(Holder<Potion> potion, Item item, Holder<Potion> potion2) {
-		throw new AssertionError();
-	}
+	void taniwha$callAddMix(Holder<Potion> potion, Item item, Holder<Potion> potion2);
 
 	@Invoker("addContainerRecipe")
-	static void taniwha$callAddContainerRecipe(Item item, Item item2, Item item3) {
-		throw new AssertionError();
-	}
+	void taniwha$callAddContainerRecipe(Item item, Item item2, Item item3);
 
 	@Invoker("addContainer")
-	static void callAddContainer(Item item) {
-		throw new AssertionError();
-	}
+	void taniwha$callAddContainer(Item item);
 }

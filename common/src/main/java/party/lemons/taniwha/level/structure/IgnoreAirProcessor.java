@@ -1,6 +1,6 @@
 package party.lemons.taniwha.level.structure;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class IgnoreAirProcessor extends StructureProcessor
 {
-	public static final Codec<IgnoreAirProcessor> CODEC = Codec.unit((() -> IgnoreAirProcessor.INSTANCE));
+	public static final MapCodec<IgnoreAirProcessor> CODEC = MapCodec.unit((() -> IgnoreAirProcessor.INSTANCE));
 	public static final IgnoreAirProcessor INSTANCE = new IgnoreAirProcessor();
 
 

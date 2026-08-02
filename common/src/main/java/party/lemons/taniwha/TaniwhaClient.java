@@ -4,7 +4,6 @@ import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.utils.Env;
 import dev.architectury.utils.EnvExecutor;
 import party.lemons.taniwha.entity.TEntities;
-import party.lemons.taniwha.entity.boat.BoatTypes;
 import party.lemons.taniwha.entity.boat.TBoatRender;
 
 public class TaniwhaClient

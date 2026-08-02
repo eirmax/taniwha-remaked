@@ -84,7 +84,7 @@ public class TBoat extends Boat implements EntitySpawnExtension
 
     @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity serverEntity) {
-        return NetworkManager.createAddEntityPacket(this, null);
+        return NetworkManager.createAddEntityPacket(this, serverEntity);
     }
 
     @Override

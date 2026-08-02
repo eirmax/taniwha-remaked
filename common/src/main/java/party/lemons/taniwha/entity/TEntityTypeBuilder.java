@@ -72,6 +72,6 @@ public class TEntityTypeBuilder<T extends Entity> {
 	}
 
 	public EntityType<T> build() {
-		return new EntityType<>(this.factory, this.category, this.serialize, this.summon, this.fireImmune, this.canSpawnFarFromPlayer, this.immuneTo, this.dimensions, this.clientTrackingRange, this.updateInterval, this.clientTrackingRange, FeatureFlags.VANILLA_SET);
+		return new EntityType<>(this.factory, this.category, this.serialize, this.summon, this.fireImmune, this.canSpawnFarFromPlayer, this.immuneTo, this.dimensions, 1.0F, this.clientTrackingRange, this.updateInterval, FeatureFlags.VANILLA_SET);
 	}
 }

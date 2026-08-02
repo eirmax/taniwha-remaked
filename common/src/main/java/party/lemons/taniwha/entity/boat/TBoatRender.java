@@ -37,7 +37,7 @@ public class TBoatRender extends EntityRenderer<TBoat>
 
         for(BoatType boatType : BoatTypes.TYPES)
         {
-            boatResources.put(boatType, Pair.of(boatType.getTexture(chest), boatType.shape.createModel(context, boatType, chest)));
+            boatResources.put(boatType, Pair.of(boatType.getTexture(chest), BoatShapeModels.createModel(context, boatType, chest)));
         }
     }
 

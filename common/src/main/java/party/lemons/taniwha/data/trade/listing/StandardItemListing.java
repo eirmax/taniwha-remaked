@@ -1,6 +1,7 @@
 package party.lemons.taniwha.data.trade.listing;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
@@ -16,7 +17,7 @@ import java.util.Optional;
 
 public class StandardItemListing extends TItemListing
 {
-	public static final Codec<StandardItemListing> CODEC = RecordCodecBuilder.create(instance ->
+	public static final MapCodec<StandardItemListing> CODEC = RecordCodecBuilder.mapCodec(instance ->
 			instance.group(
 						ItemStack.CODEC.fieldOf("item1").forGetter(i-> i.item1.itemStack()),
 						ItemStack.CODEC.optionalFieldOf("item2").forGetter(i-> Optional.of(i.item2.itemStack())),

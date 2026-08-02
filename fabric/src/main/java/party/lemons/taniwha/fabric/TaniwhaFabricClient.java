@@ -17,12 +17,14 @@ import net.minecraft.world.entity.animal.horse.Horse;
 import party.lemons.taniwha.Taniwha;
 import party.lemons.taniwha.TaniwhaClient;
 import party.lemons.taniwha.client.model.RenderLayerInjector;
+import party.lemons.taniwha.entity.boat.BoatShapeModels;
 
 public class TaniwhaFabricClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
 
+        BoatShapeModels.registerModelLayers();
         TaniwhaClient.init();
 
         LivingEntityFeatureRendererRegistrationCallback.EVENT.register((entityType, entityRenderer, registrationHelper, context) -> {

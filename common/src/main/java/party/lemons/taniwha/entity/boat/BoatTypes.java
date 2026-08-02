@@ -2,14 +2,9 @@ package party.lemons.taniwha.entity.boat;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
-import net.minecraft.client.model.BoatModel;
-import net.minecraft.client.model.ChestBoatModel;
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.Items;
-import party.lemons.taniwha.TConstants;
 import party.lemons.taniwha.Taniwha;
 
 import java.util.List;
@@ -49,12 +44,4 @@ public class BoatTypes
         return null;
     }
 
-    public static void registerModelLayers()
-    {
-        for(BoatType type : TYPES)
-        {
-            EntityModelLayerRegistry.register(new ModelLayerLocation( ResourceLocation.fromNamespaceAndPath(TConstants.MOD_ID, type.getModelLocation()), "main"), BoatModel::createBodyModel);
-            EntityModelLayerRegistry.register(new ModelLayerLocation( ResourceLocation.fromNamespaceAndPath(TConstants.MOD_ID, type.getChestModelLocation()), "main"), ChestBoatModel::createBodyModel);
-        }
-    }
 }

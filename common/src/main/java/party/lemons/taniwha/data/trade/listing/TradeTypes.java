@@ -3,6 +3,7 @@ package party.lemons.taniwha.data.trade.listing;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Lifecycle;
+import com.mojang.serialization.MapCodec;
 import dev.architectury.event.events.common.TickEvent;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.Registrar;
@@ -46,14 +47,14 @@ public class TradeTypes
 		Codec<TradeType<?>> codec2 = ExtraCodecs.idResolverCodec(object -> REGISTRY.getKey(object).isPresent() ? REGISTRY.getRawId(object) : -1, REGISTRY::byRawId, -1);
 		return ExtraCodecs.overrideLifecycle(ExtraCodecs.orCompressed(codec, codec2), (e)-> Lifecycle.stable(),  (e)->Lifecycle.stable());
 	}
-	public static final Codec<TItemListing> CODEC = byNameCodec().dispatch(TItemListing::type, tradeType -> tradeType.codec().fieldOf("data"));
+	public static final Codec<TItemListing> CODEC = byNameCodec().dispatch(TItemListing::type, TradeType::codec);
 
 	public static void init()
 	{
 		TRADE_TYPES.register();
 	}
 
-	public record TradeType<T extends TItemListing>(Codec<T> codec)
+	public record TradeType<T extends TItemListing>(MapCodec<T> codec)
 	{
 	}
 }

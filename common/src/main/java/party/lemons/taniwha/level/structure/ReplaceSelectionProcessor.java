@@ -1,6 +1,6 @@
 package party.lemons.taniwha.level.structure;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -16,8 +16,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class ReplaceSelectionProcessor extends StructureProcessor
 {
-	public static final Codec<ReplaceSelectionProcessor> CODEC =  RecordCodecBuilder.create(instance ->
-			instance.group(
+	public static final MapCodec<ReplaceSelectionProcessor> CODEC =  RecordCodecBuilder.mapCodec(instance ->
+					instance.group(
 							BlockStateProvider.CODEC.fieldOf("output").forGetter(c -> c.output),
 							BuiltInRegistries.BLOCK.byNameCodec().fieldOf("target").forGetter(i->i.target)
 					)

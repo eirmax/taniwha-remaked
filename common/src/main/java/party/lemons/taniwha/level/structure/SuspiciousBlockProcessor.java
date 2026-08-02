@@ -1,6 +1,7 @@
 package party.lemons.taniwha.level.structure;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -17,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class SuspiciousBlockProcessor extends StructureProcessor
 {
-	public static final Codec<SuspiciousBlockProcessor> CODEC =  RecordCodecBuilder.create(instance ->
+	public static final MapCodec<SuspiciousBlockProcessor> CODEC =  RecordCodecBuilder.mapCodec(instance ->
 			instance.group(
 							BuiltInRegistries.BLOCK.byNameCodec().fieldOf("target").forGetter(i->i.target),
 							BuiltInRegistries.BLOCK.byNameCodec().fieldOf("output_regular").forGetter(i->i.regularOutput),

@@ -31,7 +31,7 @@ dependencies {
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
     modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
-    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rootProject.rei_version}"
+    modLocalRuntime "me.shedaniel:RoughlyEnoughItems-fabric:${rootProject.rei_version}"
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProject.rei_version}"
 
     //  modApi "com.terraformersmc:modmenu:${rootProject.mod_menu_version}"
