@@ -14,9 +14,14 @@ import java.util.HashSet;
 
 public class BrewingStandHooks {
 
+    public static void addMix(Holder<Potion> potion, Item item, Holder<Potion> result)
+    {
+        PotionBrewingInvoker.callAddMix(potion, item, result);
+    }
+
     public static void addMix(Potion potion, Item item, Potion result)
     {
-        PotionBrewingInvoker.callAddMix((Holder<Potion>) potion, item, (Holder<Potion>) result);
+        PotionBrewingInvoker.callAddMix(Holder.direct(potion), item, Holder.direct(result));
     }
 
     public static int getBrewingFuel(BrewingStandBlockEntity brewingStand)
