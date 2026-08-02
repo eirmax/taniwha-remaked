@@ -40,7 +40,7 @@ jobs:
         with:
           tag: ${{ steps.build.outputs.version }}
           files: |
-            fabric/build/libs/${{ steps.build.outputs.modid }}-fabric-${{ steps.build.outputs.version }}.jar
+            fabric/build/libs/${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}.jar
             neoforge/build/libs/${{ steps.build.outputs.modid }}-neoforge-${{ steps.build.outputs.version }}.jar
             common/build/libs/${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}.jar
             build/libs/${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}.jar
