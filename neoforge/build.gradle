@@ -88,8 +88,8 @@ publishing {
              name = "GitHubPackages"
              url = uri("https://maven.pkg.github.com/eirmax/taniwha-remaked")
              credentials {
-                 username = project.findProperty("gpr.user")
-                 password = project.findProperty("gpr.key")
+                 username = project.findProperty("gpr.user") ?: System.getenv("GPR_USER") ?: System.getenv("GITHUB_ACTOR") ?: ""
+                 password = project.findProperty("gpr.key") ?: System.getenv("GPR_KEY") ?: System.getenv("GITHUB_TOKEN") ?: ""
              }
          }
      }
